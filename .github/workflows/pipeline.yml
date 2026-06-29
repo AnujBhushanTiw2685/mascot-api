@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      packages: read
+      packages: write-all
 
     steps:
       - name: Log into ghcr.io
