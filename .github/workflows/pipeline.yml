@@ -94,7 +94,7 @@ jobs:
         run: |
           docker run \
             --rm --detach --publish 8080:8080 \
-            --name $SERVICE_NAME \ $IMAGE_NAME:${{ github.sha }}
+            --name $SERVICE_NAME $IMAGE_NAME:${{ github.sha }}
           sleep 3 # allow some time for the service to start
 
       - name: Run tests using the container image
