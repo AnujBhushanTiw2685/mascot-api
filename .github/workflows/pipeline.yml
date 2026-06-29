@@ -81,14 +81,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+    # -------------------- ADDED --------------------
+      - name: Prepare image name
+        run: |
+          echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+    # ------------------------------------------------
+
       - name: Pull the image from GitHub Container Registry
-        run: docker pull ghcr.io/${{ github.repository }}:${{ github.sha }}
+        run: docker pull $IMAGE_NAME:${{ github.sha }}   # <-- CHANGED
 
       - name: Start ${{ env.SERVICE_NAME }}
         run: |
           docker run \
             --rm --detach --publish 8080:8080 \
-            --name $SERVICE_NAME ghcr.io/${{ github.repository }}:${{ github.sha }}
+            --name $SERVICE_NAME \ $IMAGE_NAME:${{ github.sha }}
           sleep 3 # allow some time for the service to start
 
       - name: Run tests using the container image
